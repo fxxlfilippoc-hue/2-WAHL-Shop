@@ -29,7 +29,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .login-btn:hover{opacity:.85}
 .login-err{color:var(--accent);font-size:13px;margin-top:10px;display:none}
 
-#app{display:none}
+#app{display:block;visibility:hidden;pointer-events:none}
 header{background:var(--card);border-bottom:1px solid var(--border);padding:0 32px;position:sticky;top:0;z-index:100}
 .header-inner{max-width:1600px;margin:0 auto;display:flex;align-items:center;gap:24px;height:60px}
 .logo{font-family:'DM Serif Display',serif;font-size:20px;white-space:nowrap}
@@ -22312,8 +22312,8 @@ let selectedSize = null;
 
 function doLogin(){
   if(document.getElementById('pw').value === PASSWORD){
-    document.getElementById('login-screen').style.display='none';
-    document.getElementById('app').style.display='block';
+    document.getElementById('login-screen').style.display='none';document.getElementById('app').style.visibility='visible';document.getElementById('app').style.pointerEvents='auto';
+    document.getElementById('app').style.removeProperty('display');
     render();
   } else {
     document.getElementById('login-err').style.display='block';
@@ -22321,7 +22321,7 @@ function doLogin(){
 }
 document.getElementById('pw').addEventListener('keydown', e => { if(e.key==='Enter') doLogin(); });
 function doLogout(){
-  document.getElementById('app').style.display='none';
+  document.getElementById('app').style.visibility='hidden';document.getElementById('app').style.pointerEvents='none';
   document.getElementById('login-screen').style.display='flex';
   document.getElementById('pw').value='';
 }
