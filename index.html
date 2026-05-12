@@ -47,6 +47,49 @@ header{background:#ffffff;color:var(--black);position:sticky;top:0;z-index:100;b
 .count-tag{background:#f0f0f0;color:#555;border-radius:4px;padding:5px 12px;font-size:13px}
 .logout-btn{background:transparent;border:1px solid #ddd;border-radius:4px;padding:7px 14px;font-family:inherit;font-size:13px;cursor:pointer;color:#555;transition:all .15s}
 .logout-btn:hover{background:#f0f0f0;color:var(--black)}
+.cart-btn{background:var(--red);border:none;border-radius:4px;padding:7px 14px;font-family:inherit;font-size:13px;cursor:pointer;color:#fff;font-weight:700;display:flex;align-items:center;gap:6px;transition:background .15s}
+.cart-btn:hover{background:var(--red-dark)}
+.cart-count{background:#fff;color:var(--red);border-radius:10px;padding:1px 7px;font-size:12px;font-weight:700;min-width:20px;text-align:center}
+/* CART MODAL */
+.cart-bg{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:600;display:none;align-items:flex-start;justify-content:flex-end}
+.cart-bg.open{display:flex}
+.cart-panel{background:#fff;width:480px;max-width:100%;height:100vh;overflow-y:auto;box-shadow:-4px 0 30px rgba(0,0,0,.2);display:flex;flex-direction:column}
+.cart-header{padding:20px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:#fff;position:sticky;top:0;z-index:1}
+.cart-title{font-size:18px;font-weight:700}
+.cart-close{background:none;border:none;font-size:22px;cursor:pointer;color:#999;padding:4px}
+.cart-close:hover{color:var(--black)}
+.cart-items{flex:1;padding:16px 24px;overflow-y:auto}
+.cart-empty{text-align:center;padding:60px 20px;color:#bbb}
+.cart-empty big{display:block;font-size:40px;margin-bottom:12px}
+.cart-item{display:grid;grid-template-columns:72px 1fr auto;gap:12px;padding:14px 0;border-bottom:1px solid var(--border);align-items:center}
+.cart-item-img{width:72px;height:72px;object-fit:contain;background:#f8f8f8;border-radius:4px;border:1px solid var(--border)}
+.cart-item-img-placeholder{width:72px;height:72px;background:#f8f8f8;border-radius:4px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:#ccc;font-size:11px}
+.cart-item-name{font-size:13px;font-weight:600;margin-bottom:2px}
+.cart-item-sub{font-size:11px;color:#999;margin-bottom:6px}
+.cart-item-price{font-size:14px;font-weight:700;color:var(--red)}
+.cart-item-right{display:flex;flex-direction:column;align-items:flex-end;gap:8px}
+.qty-control{display:flex;align-items:center;gap:6px;border:1px solid var(--border);border-radius:4px;overflow:hidden}
+.qty-btn{background:#f5f5f5;border:none;width:28px;height:28px;cursor:pointer;font-size:16px;font-weight:700;transition:background .12s;display:flex;align-items:center;justify-content:center}
+.qty-btn:hover{background:#e0e0e0}
+.qty-val{font-size:14px;font-weight:700;min-width:24px;text-align:center}
+.cart-item-remove{background:none;border:none;color:#ccc;cursor:pointer;font-size:14px;padding:2px}
+.cart-item-remove:hover{color:var(--red)}
+/* CART CHECKOUT */
+.cart-footer{padding:20px 24px;border-top:2px solid var(--border);background:#fff;position:sticky;bottom:0}
+.cart-total{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.cart-total-label{font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+.cart-total-val{font-size:22px;font-weight:700;color:var(--red)}
+.checkout-form{background:#f8f8f8;border-radius:4px;padding:16px;margin-bottom:14px}
+.checkout-form-title{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px}
+.checkout-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
+.checkout-input{width:100%;padding:9px 12px;border:2px solid var(--border);border-radius:4px;font-family:inherit;font-size:13px;outline:none;transition:border-color .15s}
+.checkout-input:focus{border-color:var(--red)}
+.checkout-mail-box{background:#fff;border:1px solid var(--border);border-radius:4px;padding:12px;font-size:12px;line-height:1.7;white-space:pre-wrap;font-family:inherit;color:var(--black);max-height:180px;overflow-y:auto;margin-bottom:10px}
+.checkout-copy-btn{width:100%;padding:13px;background:var(--red);color:#fff;border:none;border-radius:4px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;text-transform:uppercase;letter-spacing:.05em;transition:background .15s}
+.checkout-copy-btn:hover{background:var(--red-dark)}
+.checkout-copy-btn.copied{background:#2e7d32}
+.checkout-hint{font-size:11px;color:#999;text-align:center;margin-top:6px}
+
 
 /* NAV BAR */
 .nav-bar{background:#f5f0e8;}
@@ -200,6 +243,7 @@ select.filter-select{width:100%;padding:8px 14px;border:none;border-top:1px soli
       </div>
       <div class="header-right">
         <span class="count-tag" id="result-count">0 Artikel</span>
+        <button class="cart-btn" onclick="openCart()" id="cart-btn">🛒 Warenkorb <span class="cart-count" id="cart-count" style="display:none">0</span></button>
         <button class="logout-btn" onclick="doLogout()">Abmelden</button>
       </div>
     </div>
@@ -289,6 +333,34 @@ select.filter-select{width:100%;padding:8px 14px;border:none;border-top:1px soli
       </div>
       <div class="grid" id="grid"></div>
       <div class="pagination" id="pagination"></div>
+    </div>
+  </div>
+</div>
+
+
+<!-- CART -->
+<div class="cart-bg" id="cart-bg" onclick="cartBgClick(event)">
+  <div class="cart-panel" id="cart-panel">
+    <div class="cart-header">
+      <div class="cart-title">🛒 Warenkorb</div>
+      <button class="cart-close" onclick="closeCart()">✕</button>
+    </div>
+    <div class="cart-items" id="cart-items"></div>
+    <div class="cart-footer" id="cart-footer" style="display:none">
+      <div class="cart-total">
+        <span class="cart-total-label">Gesamt</span>
+        <span class="cart-total-val" id="cart-total-val">0,00 €</span>
+      </div>
+      <div class="checkout-form">
+        <div class="checkout-form-title">✉️ Anfrage erstellen</div>
+        <div class="checkout-row">
+          <input class="checkout-input" id="checkout-vorname" placeholder="Vorname" oninput="updateCheckoutMail()">
+          <input class="checkout-input" id="checkout-nachname" placeholder="Nachname" oninput="updateCheckoutMail()">
+        </div>
+        <div class="checkout-mail-box" id="checkout-mail-box"></div>
+        <button class="checkout-copy-btn" id="checkout-copy-btn" onclick="copyCheckoutMail()">📋 Text kopieren</button>
+        <div class="checkout-hint">In Outlook einfügen → an <strong>einkauf@fahrrad-xxl.de</strong> senden</div>
+      </div>
     </div>
   </div>
 </div>
@@ -491,18 +563,10 @@ function renderModal(){
     sizeHtml=`<div class="size-label">Größe wählen</div><div class="size-options">${btns}</div>`;
   }
   const textHtml=d.text?`<div class="modal-text">${d.text}</div>`:'';
+  const cartIdx = ALLDATA.indexOf(d);
   const anfrageForm=needsSize&&!selectedSize
     ?`<div class="anfrage-section"><div class="size-hint">⚠️ Bitte zuerst eine Größe auswählen</div></div>`
-    :`<div class="anfrage-section">
-        <div class="anfrage-title">✉️ Kaufanfrage</div>
-        <div class="anfrage-row">
-          <input class="anfrage-input" id="anfrage-vorname" placeholder="Vorname" oninput="updateMailText()">
-          <input class="anfrage-input" id="anfrage-nachname" placeholder="Nachname" oninput="updateMailText()">
-        </div>
-        <div class="mail-text-box" id="mail-text-box"></div>
-        <button class="copy-btn" id="copy-btn" onclick="copyMailText()">📋 Text kopieren</button>
-        <div class="copy-hint">In Outlook einfügen → an <strong>einkauf@fahrrad-xxl.de</strong> senden</div>
-      </div>`;
+    :`<button class="checkout-copy-btn" id="modal-add-btn" onclick="addToCart(${cartIdx})" style="margin-bottom:8px">🛒 In den Warenkorb</button>`;
 
   document.getElementById('modal-content').innerHTML=`
     <div class="modal-layout">
@@ -574,6 +638,131 @@ function renderPagination(pages){
   html+=`<button class="page-btn" onclick="goPage(${currentPage+1})" ${currentPage===pages?'disabled':''}>›</button>`;
   el.innerHTML=html;
 }
+
+// ── WARENKORB ─────────────────────────────────────────────
+let cart = []; // [{product, groesse, menge}]
+
+function addToCart(idx){
+  const d = ALLDATA[idx];
+  const gr = selectedSize||(d.groessen&&d.groessen.length===1?d.groessen[0]:'');
+  const key = d.artikelnummer + '|' + gr;
+  const existing = cart.find(i=>i.key===key);
+  const maxMenge = d.bestand;
+  if(existing){
+    if(existing.menge < maxMenge){ existing.menge++; }
+  } else {
+    cart.push({key, product:d, groesse:gr, menge:1, max:maxMenge});
+  }
+  updateCartBadge();
+  // Flash button
+  const btn = document.getElementById('modal-add-btn');
+  if(btn){ btn.textContent='✅ Hinzugefügt!'; setTimeout(()=>{ if(btn) btn.textContent='🛒 In den Warenkorb'; },1500); }
+}
+
+function updateCartBadge(){
+  const total = cart.reduce((s,i)=>s+i.menge,0);
+  const badge = document.getElementById('cart-count');
+  if(total>0){ badge.textContent=total; badge.style.display='inline-block'; }
+  else { badge.style.display='none'; }
+}
+
+function openCart(){
+  renderCart();
+  document.getElementById('cart-bg').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeCart(){
+  document.getElementById('cart-bg').classList.remove('open');
+  document.body.style.overflow='';
+}
+function cartBgClick(e){ if(e.target===document.getElementById('cart-bg')) closeCart(); }
+
+function renderCart(){
+  const el = document.getElementById('cart-items');
+  const footer = document.getElementById('cart-footer');
+  if(cart.length===0){
+    el.innerHTML='<div class="cart-empty"><big>🛒</big>Dein Warenkorb ist leer</div>';
+    footer.style.display='none';
+    return;
+  }
+  footer.style.display='block';
+  el.innerHTML = cart.map((item,i)=>{
+    const p = item.product;
+    const price = p.preis_ma>0?p.preis_ma:p.uvp;
+    const imgHtml = p.bild
+      ? `<img class="cart-item-img" src="${p.bild}" onerror="this.style.display='none'">`
+      : `<div class="cart-item-img-placeholder">?</div>`;
+    return `<div class="cart-item">
+      ${imgHtml}
+      <div>
+        <div class="cart-item-name">${p.marke} ${p.produktname}</div>
+        <div class="cart-item-sub">${item.groesse?'Größe: '+item.groesse+' · ':''}Art.-Nr.: ${p.artikelnummer}</div>
+        <div class="cart-item-price">${(price*item.menge).toFixed(2).replace('.',',')} €</div>
+      </div>
+      <div class="cart-item-right">
+        <button class="cart-item-remove" onclick="removeFromCart(${i})">🗑</button>
+        <div class="qty-control">
+          <button class="qty-btn" onclick="changeQty(${i},-1)">−</button>
+          <span class="qty-val">${item.menge}</span>
+          <button class="qty-btn" onclick="changeQty(${i},1)" ${item.menge>=item.max?'disabled style="opacity:.4;cursor:default"':''}>+</button>
+        </div>
+        <div style="font-size:11px;color:#bbb">max. ${item.max} Stk.</div>
+      </div>
+    </div>`;
+  }).join('');
+
+  // Total
+  const total = cart.reduce((s,i)=>{ const p=i.product; return s+(p.preis_ma>0?p.preis_ma:p.uvp)*i.menge; },0);
+  document.getElementById('cart-total-val').textContent = total.toFixed(2).replace('.',',') + ' €';
+  updateCheckoutMail();
+}
+
+function changeQty(i, delta){
+  cart[i].menge = Math.max(1, Math.min(cart[i].max, cart[i].menge+delta));
+  updateCartBadge();
+  renderCart();
+}
+function removeFromCart(i){
+  cart.splice(i,1);
+  updateCartBadge();
+  renderCart();
+}
+
+function getCheckoutMailText(){
+  const vn = (document.getElementById('checkout-vorname')||{}).value||'';
+  const nn = (document.getElementById('checkout-nachname')||{}).value||'';
+  const lines = cart.map(item=>{
+    const p = item.product;
+    const price = p.preis_ma>0?p.preis_ma:p.uvp;
+    return p.artikelnummer+' - '+p.marke+(item.groesse?' ('+item.groesse+')':'')+' - Menge: '+item.menge+' | Preis: '+(price*item.menge).toFixed(2).replace('.',',')+'€';
+  }).join('\n');
+  const total = cart.reduce((s,i)=>{ const p=i.product; return s+(p.preis_ma>0?p.preis_ma:p.uvp)*i.menge; },0);
+  return 'Hallo,\n\nich möchte folgende Artikel anfragen:\n\n'
+    +'Vorname: '+vn+'\nNachname: '+nn+'\n\n'
+    +lines+'\n\n'
+    +'Gesamtbetrag: '+total.toFixed(2).replace('.',',')+'€\n\n'
+    +'Viele Grüße\n'+vn+' '+nn;
+}
+
+function updateCheckoutMail(){
+  const el = document.getElementById('checkout-mail-box');
+  if(el) el.textContent = getCheckoutMailText();
+}
+
+function copyCheckoutMail(){
+  const text = getCheckoutMailText();
+  navigator.clipboard.writeText(text).then(()=>{
+    const btn = document.getElementById('checkout-copy-btn');
+    btn.textContent='✅ Kopiert!'; btn.classList.add('copied');
+    setTimeout(()=>{ btn.textContent='📋 Text kopieren'; btn.classList.remove('copied'); },2500);
+  }).catch(()=>{
+    const ta=document.createElement('textarea');ta.value=text;
+    document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);
+    const btn=document.getElementById('checkout-copy-btn');btn.textContent='✅ Kopiert!';
+    setTimeout(()=>{ btn.textContent='📋 Text kopieren'; },2500);
+  });
+}
+
 function goPage(p){currentPage=p;render();window.scrollTo({top:0,behavior:'smooth'});}
 </script>
 </body>
